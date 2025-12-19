@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useQuery } from "@tanstack/react-query"
 import { supabase } from "./lib/supabaseClient";
 import Todo from './components/Todo';
@@ -6,6 +7,8 @@ import './App.css'
 function App() {
 
     const getList = async () => {
+        console.log("FETCHING FROM SERVER");
+
       const { data,  error } = await supabase
         .from("list")
         .select('*');
@@ -22,13 +25,24 @@ function App() {
   if (error) return <p>Error ocurred: {error.message}</p>
 
   return (
-    <>
-    <Todo  />
-    <ul>
-      {data.map(list => <li key={list.id}>{list.name}</li>)}
-    </ul>
-    </>
-  )
+    <div className="flex flex-col gap-2">
+      <Todo />
+      <ul className="flex flex-col gap-2 w-md">
+        {data.map((list) => (
+          <motion.li
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            key={list.id}
+            className="flex justify-between bg-red-200 text-start p-2"
+          >
+            {list.name}
+            <button className="btn w-fit">Delete</button>
+          </motion.li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default App
