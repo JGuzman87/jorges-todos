@@ -1,28 +1,46 @@
-import { motion } from 'framer-motion';
-import { useQuery } from "@tanstack/react-query"
+import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "./lib/supabaseClient";
-import Todo from './components/Todo';
-import './App.css'
+import Todo from "./components/Todo";
+import "./App.css";
 
 function App() {
 
-    const getList = async () => {
-        console.log("FETCHING FROM SERVER");
 
-      const { data,  error } = await supabase
-        .from("list")
-        .select('*');
-      if (error) {
-        throw new Error("Error fetching data");
-      }
-      return data;
-    };
+  const getList = async () => {
+    console.log("FETCHING FROM SERVER");
+
+    const { data, error } = await supabase.from("list").select("*");
+    if (error) {
+      throw new Error("Error fetching data");
+    }
+    return data;
+  };
+
+
+
+  const deleteList = async (id) => {
+    const { data, error } = await supabase
+      .from("list")
+      .delete()
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      throw new Error("unable to delete list");
+    }
+    return data;
+  };
+
   
 
-  const {data, isLoading, error} = useQuery({queryKey: ['list'], queryFn: getList} );
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["list"],
+    queryFn: getList,
+  });
 
-  if (isLoading) return <p>Loading...</p>
-  if (error) return <p>Error ocurred: {error.message}</p>
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error ocurred: {error.message}</p>;
 
   return (
     <div className="flex flex-col gap-2">
@@ -37,7 +55,9 @@ function App() {
             className="flex justify-between bg-red-200 text-start p-2"
           >
             {list.name}
-            <button className="btn w-fit">Delete</button>
+            <button className="btn w-fit" onClick={() => deleteList(list.id)}>
+              Delete
+            </button>
           </motion.li>
         ))}
       </ul>
@@ -45,4 +65,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
