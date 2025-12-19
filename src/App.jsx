@@ -20,15 +20,18 @@ function App() {
 
 
   const deleteList = async (id) => {
+    console.log(id)
     const { data, error } = await supabase
       .from("list")
       .delete()
       .eq("id", id)
-      .select();
+      .select()
+      ;
 
     if (error) {
       throw new Error("unable to delete list");
     }
+    console.log(data)
     return data;
   };
 
