@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Todo = () => {
   const [todo, setTodo] = useState("");
+
+  
 
   const addList = async () => {
     const {  error } = await supabase
@@ -11,12 +14,23 @@ const Todo = () => {
       .select();
 
       if (error) {
-        alert(error.message)
+       throw new Error("error fetching data")
       } else {
         console.log(todo);
         setTodo('')
       }
   };
+
+  const queryClient = useQueryClient();
+
+  const {mutate} = useMutation({mutationFn: addList, onSuccess: () => {
+    //necessary for list to re-fetch 
+    queryClient.invalidateQueries(['list'])
+  }});
+
+  const handleClick = () => {
+    mutate({name: todo});
+  }
 
   return (
     <>
@@ -28,7 +42,7 @@ const Todo = () => {
           onChange={(e) => setTodo(e.target.value)}
           value={todo}
         />
-        <button type="button " className="btn btn-primary" onClick={() => addList()}>
+        <button type="button " className="btn btn-primary" onClick={handleClick}>
           Submit
         </button>
       </div>

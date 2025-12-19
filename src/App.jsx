@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query"
-import { supabase } from "@supabase/supabase-js";
+import { supabase } from "./lib/supabaseClient";
 import Todo from './components/Todo';
 import './App.css'
 
 function App() {
 
     const getList = async () => {
-      const {  error } = await supabase
+      const { data,  error } = await supabase
         .from("list")
         .select('*');
       if (error) {
-        alert(error.message);
+        throw new Error("Error fetching data");
       }
+      return data;
     };
   
 
@@ -24,7 +25,7 @@ function App() {
     <>
     <Todo  />
     <ul>
-      
+      {data.map(list => <li key={list.id}>{list.name}</li>)}
     </ul>
     </>
   )
