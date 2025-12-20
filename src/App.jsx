@@ -52,9 +52,9 @@ function App() {
   });
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col items-center gap-4">
       <Todo />
-      <ul className="flex flex-col gap-2 w-md">
+      <ul className="flex flex-col gap-2 w-full md:w-1/2">
         <AnimatePresence>
           {!isLoading &&
             data.map((list) => (
@@ -64,7 +64,7 @@ function App() {
                 exit={{ opacity: 0, x: 200 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 key={list.id}
-                className="flex justify-between bg-red-200 text-start p-2"
+                className="flex justify-between bg-red-100 rounded-md shadow-2xl text-start p-2"
               >
                 {list.name}
                 <button className="btn w-fit" onClick={() => mutate(list.id)}>

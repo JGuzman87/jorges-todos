@@ -37,7 +37,7 @@ const Todo = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <div className="flex shadow-lg rounded-2xl w-full md:w-100 flex-col gap-2 p-2 ">
         <input
           className="p-1"
           type="text"
@@ -47,7 +47,7 @@ const Todo = () => {
         />
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-primary w-full  self-center"
           onClick={handleClick}
         >
           Submit
