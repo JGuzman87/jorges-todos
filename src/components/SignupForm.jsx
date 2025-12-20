@@ -1,35 +1,47 @@
-import  { useState } from 'react';
-import { motion } from 'framer-motion';
-import { supabase} from '../lib/supabaseClient';
+import { useState } from "react";
+import { motion } from "framer-motion";
+
 
 const SignupForm = () => {
+  const [signup, setSignup] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-    const [signup, setSignup] = useState({
-        username: '',
-        email: '',
-        password: ''
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setSignup((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signUp({
+     name: signup.username,
+      email: signup.email,
+      password: signup.password,
     });
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
+    if (error) {
+      throw new Error(error.message);
+    } else {
+      console.log(signup);
 
-        setSignup(prev => ({...prev, [name]: value}))
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-       console.log(signup)
-
-       setSignup({
-         username: "",
-         email: "",
-         password: "",
-       });
-
+      setSignup({
+        username: "",
+        email: "",
+        password: "",
+      });
     }
+  };
   return (
     <>
-    <form className='flex flex-col md:w-1/2 items-center m-auto mt-50 rounded-2xl shadow-2xl p-2 gap-2' onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col md:w-1/2 items-center m-auto mt-50 rounded-2xl shadow-2xl p-2 gap-2"
+        onSubmit={handleSubmit}
+      >
         <label htmlFor="username">Username: </label>
         <input
           type="text"
@@ -37,6 +49,7 @@ const SignupForm = () => {
           value={signup.username}
           placeholder="enter a username..."
           onChange={handleChange}
+          required
         />
         <label htmlFor="email">Email: </label>
         <input
@@ -45,6 +58,7 @@ const SignupForm = () => {
           value={signup.email}
           placeholder="enter email..."
           onChange={handleChange}
+          required
         />
         <label htmlFor="password">Password: </label>
         <input
@@ -53,11 +67,19 @@ const SignupForm = () => {
           value={signup.password}
           placeholder="enter password..."
           onChange={handleChange}
+          required
         />
-        <button type='submit' className='btn btn-primary '>Signup</button>
-    </form>
+        <motion.button
+          type="submit"
+          className="btn btn-primary "
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          Signup
+        </motion.button>
+      </form>
     </>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;

@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../lib/supabaseClient";
+import { useNavigate } from 'react-router-dom';
 
 import { useState } from "react";
 
@@ -10,31 +11,35 @@ const LoginForm = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+
+      setUser((prev) => ({ ...prev, [name]: value }));
+    };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase
-      .from("users")
-      .insert([{ email: user.email, password: user.password }])
-      .select();
+  const { error } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: user.password,
+  });
 
     if (error) {
       throw new Error("Error adding user");
     } else {
-        await supabase.auth.signInWithPassWord({
-            email: user.email,
-            password: user.password
-        })
-      console.log(user);
+     navigate('/dashboard')
+   
       setUser({ email: "", password: "" });
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
 
-    setUser((prev) => ({ ...prev, [name]: value }));
-  };
+
+
 
   return (
     <>
@@ -49,6 +54,7 @@ const LoginForm = () => {
           value={user.email}
           placeholder="enter email..."
           onChange={handleChange}
+          required
         />
         <label htmlFor="password">Password: </label>
         <input
@@ -57,6 +63,7 @@ const LoginForm = () => {
           value={user.password}
           placeholder="enter password..."
           onChange={handleChange}
+          required
         />
         <button type="submit" className="btn btn-success">
           Login

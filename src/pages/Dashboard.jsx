@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../lib/supabaseClient"
 import Todo from "../components/Todo";
 
+
 const Dashboard = () => {
   //useQueryClient() is necessary for list to re-fetch
 
@@ -49,6 +50,8 @@ const Dashboard = () => {
       queryClient.invalidateQueries(["list"]);
     },
   });
+
+
   return (
     <>
       <div className="flex flex-col items-center gap-4">
