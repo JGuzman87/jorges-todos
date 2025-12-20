@@ -12,7 +12,7 @@ const Todo = () => {
       .select();
 
     if (error) {
-      throw new Error("error fetching data");
+      throw new Error("error adding list");
     } else {
       console.log(todo);
       setTodo("");
