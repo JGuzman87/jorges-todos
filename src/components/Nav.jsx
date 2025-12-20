@@ -4,15 +4,19 @@ const Nav = () => {
     <>
       <div className="navbar bg-base-100 shadow-sm">
         <div className="flex-1">
-          <Link className="btn btn-ghost text-xl" to="/">daisyUI</Link>
+          <Link className="btn btn-ghost text-xl" to="/">
+            daisyUI
+          </Link>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
-          
             <li>
-                <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
 
+            <li>
+              <Link to="/signup">Signup</Link>
+            </li>
           </ul>
         </div>
       </div>
