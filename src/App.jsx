@@ -1,5 +1,4 @@
-import { Route, Routes, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { Route, Routes} from "react-router-dom";
 import { supabase } from "./lib/supabaseClient";
 import { useEffect, useState } from "react";
 import Nav from "./components/Nav";

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+
 const Nav = ({session}) => {
 
  const navigate = useNavigate();
@@ -12,14 +12,7 @@ const Nav = ({session}) => {
     navigate('/')
   }
 
-  useEffect(() => {
-    if (!session) {
-      return;
-    } else {
-      console.log(session.data)
-    }
- 
-  }, [])
+
 
   return (
     <>

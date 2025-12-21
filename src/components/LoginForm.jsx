@@ -43,32 +43,37 @@ const LoginForm = () => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 md:w-1/2 items-center mt-50 self-center shadow-2xl p-2 rounded-lg"
-      >
-        <label htmlFor="email">Email: </label>
-        <input
-          type="text"
-          name="email"
-          value={user.email}
-          placeholder="enter email..."
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="password">Password: </label>
-        <input
-          type="text"
-          name="password"
-          value={user.password}
-          placeholder="enter password..."
-          onChange={handleChange}
-          required
-        />
-        <button type="submit" className="btn btn-success">
-          Login
-        </button>
-      </form>
+      <AnimatePresence>
+        <motion.form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 md:w-1/2 items-center mt-50 self-center shadow-2xl p-2 rounded-lg"
+          initial={{ opacity: 1, y: -100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          <label htmlFor="email">Email: </label>
+          <input
+            type="text"
+            name="email"
+            value={user.email}
+            placeholder="enter email..."
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="password">Password: </label>
+          <input
+            type="text"
+            name="password"
+            value={user.password}
+            placeholder="enter password..."
+            onChange={handleChange}
+            required
+          />
+          <button type="submit" className="btn btn-success">
+            Login
+          </button>
+        </motion.form>
+      </AnimatePresence>
     </>
   );
 };
