@@ -1,11 +1,7 @@
-import LoginForm from '../components/LoginForm'
+import LoginForm from "../components/LoginForm";
 
-const Home = () => {
-  return (
-  <>
-  <LoginForm />
-  </>
-  )
-}
+const Home = ({ session }) => {
+  return <>{!session && <LoginForm />}</>;
+};
 
-export default Home
+export default Home;
